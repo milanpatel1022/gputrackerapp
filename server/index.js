@@ -36,10 +36,12 @@ app.use(session({
 app.use(passport.initialize()); //function inside of passport
 app.use(passport.session()); //we want variables to be persisted across entire session for user
 app.use(methodOverride('_method'));
+app.use(express.static(__dirname + '/public'));
 
 
-app.get('/', (req, res) => {
-    res.render('index.ejs', {name: "Milan"});
+//home page where you can login or register
+app.get('/', checkNotAuthenticated, (req, res) => {
+    res.render('index.ejs', {title: "Home"});
 });
 
 app.get('/login', checkNotAuthenticated, (req, res) => {
@@ -119,7 +121,7 @@ function checkAuthenticated(req, res, next){
 //they will need to be logged out if they want to go back to those pages
 function checkNotAuthenticated(req, res, next){
     if(req.isAuthenticated()){
-        return res.redirect('/');
+        return res.redirect('/search');
     }
     
     next();

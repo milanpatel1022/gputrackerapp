@@ -1,4 +1,39 @@
-<h1>Hi <%= name %></h1>
-<form action="/logout?_method=DELETE" method="POST">
-    <button type="submit">Log Out</button>
-</form>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="home.css"/>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Smooch+Sans:wght@400;500&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <header class="site-header">
+        <div class="site-identity">
+          <img src="images/graphics-card.png" alt="Site Name"/>
+          <span>GPU Tracker</span>
+        </div>  
+        <nav class="site-navigation">
+          <ul class="nav">
+            <li><a href="#">About</a></li> 
+            <li><a href="#">Contact</a></li> 
+          </ul>
+        </nav>
+      </header>
+
+
+    <div class="loginOrRegister">
+        <a href="/login">Login</a>
+        <span> / </span>
+        <a href="/register">Register</a>
+    </div>
+
+</body>
+
+</html>

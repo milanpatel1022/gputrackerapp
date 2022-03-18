@@ -1,0 +1,98 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Smooch Sans', sans-serif;
+}
+
+body {
+    background-color: #292c35;
+}
+
+
+/* center our login and register links */
+.loginOrRegister {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100px;
+    height: 100px;
+    position: absolute;
+    top:0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+}
+
+a {
+    text-decoration: none;
+    color: #ffffff;
+}
+
+/* make our links look nice */
+.loginOrRegister a {
+    padding: 10px;
+    font-size: 2.5em;
+}
+
+a:hover {
+    color: grey;
+}
+
+.loginOrRegister span {
+    color: #ffffff;
+    font-size: 1.5em;
+}
+
+.site-header { 
+    border-bottom: 1px solid #ccc;
+    padding: .5em 1em;
+    vertical-align: middle;
+}
+
+.site-header::after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+.site-identity {
+    float: left;
+}
+
+.site-identity span {
+    font-size: 2.0em;
+    margin: .7em 0 .3em 0;
+    display: inline-block;
+    vertical-align: middle;
+    padding-left: 10px;
+}
+
+.site-identity img {
+    max-width: 80px;
+    float: left;
+    margin: 0 10px 0 0;
+}
+
+.site-navigation {
+    float: right;
+}
+
+.site-navigation ul, li {
+    margin: 0; 
+    padding: 0;
+}
+
+.site-navigation li {
+    display: inline-block;
+    margin: 1.4em 1em 1em 1em;
+}
+
+.site-header {
+    color: #ffffff;
+}
+
+.site-header a {
+    font-size: 1.5em;
+}
