@@ -2,15 +2,18 @@ if(process.env.NODE_ENV !== 'production'){
     require('dotenv').config();
 }
 
-const express = require('express');
-const app = express();
-const cors = require("cors");
-const pool = require("./db");
-const bcrypt = require('bcrypt');
-const passport = require('passport');
-const flash = require('express-flash');
-const session = require('express-session');
+const express           = require('express');
+const app               = express();
+const cors              = require("cors");
+const pool              = require("./db");
+const bcrypt            = require('bcrypt');
+const passport          = require('passport');
+const flash             = require('express-flash');
+const session           = require('express-session');
+const methodOverride    = require('method-override');
 
+
+//passport handles auth & sessions 
 const initializePassport = require('./passport-config');
 initializePassport(
     passport,
@@ -32,22 +35,27 @@ app.use(session({
 }));
 app.use(passport.initialize()); //function inside of passport
 app.use(passport.session()); //we want variables to be persisted across entire session for user
+app.use(methodOverride('_method'));
 
 
 app.get('/', (req, res) => {
-    res.render('index.ejs', {name: 'Milan'});
+    res.render('index.ejs', {name: "Milan"});
 });
 
-app.get('/login', (req, res) => {
+app.get('/login', checkNotAuthenticated, (req, res) => {
     res.render('login.ejs');
 });
 
-app.get('/register', (req, res) => {
+app.get('/register', checkNotAuthenticated, (req, res) => {
     res.render('register.ejs', {error: ''});
 });
 
+app.get('/search', checkAuthenticated, (req, res) => {
+    res.render('search.ejs');
+})
+
 //when user submits register form
-app.post('/register', async (req, res) => {
+app.post('/register', checkNotAuthenticated, async (req, res) => {
     errMessage = "";
     try{
         //extract email & password. encrypt the password before storing in DB
@@ -83,12 +91,39 @@ app.post('/register', async (req, res) => {
 });
 
 //when user submits login form
-app.post('/login', passport.authenticate('local', {
+app.post('/login', checkNotAuthenticated, passport.authenticate('local', {
     successRedirect: '/',
     failureRedirect: '/login',
     failureFlash: true
 }));
 
+//Logout button on home page
+app.delete('/logout', (req, res) => {
+    //this function is handled by passport. it will clear session and log user out
+    req.logOut()
+    res.redirect('/login')
+})
+
+//middleware to check if user is authenticated before allowing them on a certain page
+//pass this into the GET requests on pages you want to protect
+function checkAuthenticated(req, res, next){
+    if(req.isAuthenticated()){
+        return next();
+    }
+
+    //if user not authenticated, redirect them to login
+    res.redirect('/login');
+}
+
+//middleware -> logged in users shouldn't be able to go back to the login page & login again OR go to the register page
+//they will need to be logged out if they want to go back to those pages
+function checkNotAuthenticated(req, res, next){
+    if(req.isAuthenticated()){
+        return res.redirect('/');
+    }
+    
+    next();
+}
 
 app.listen(3000, function(){
     console.log('listening on 3000');
