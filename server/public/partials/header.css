@@ -1,0 +1,41 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Smooch Sans', sans-serif;
+}
+
+body {
+    background-color: #292c35;
+}
+
+a {
+    text-decoration: none;
+    color: #ffffff;
+}
+
+a:hover {
+    color: grey;
+}
+
+.navbar-brand img{
+    width: 100%;
+    max-width: 12%;
+    height: auto;
+}
+
+.navbar-header span{
+    color: #fff;
+    font-size: 1.75em;
+}
+
+.navbar-nav li a{
+    text-decoration: none !important;
+    color: white !important;
+    font-size: 1.75em;
+
+}
+
+.navbar-nav a:hover {
+    color: grey !important;
+}

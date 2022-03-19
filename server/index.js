@@ -64,7 +64,6 @@ app.post('/register', checkNotAuthenticated, async (req, res) => {
         const email = req.body.email;
         const hashedPassword = await bcrypt.hash(req.body.password, 10);
 
-        console.log("in register", email, hashedPassword);
 
         //insert the new user into our DB (the users table)
         const newUser = await pool.query(
@@ -82,7 +81,6 @@ app.post('/register', checkNotAuthenticated, async (req, res) => {
         res.redirect('/login');
         
     } catch (e) {
-        console.log(e);
         if (e.code === '23505'){
             res.render('register.ejs', {error: 'Email already exists.'})
         }
