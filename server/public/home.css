@@ -5,6 +5,11 @@
     font-family: 'Smooch Sans', sans-serif;
 }
 
+html,
+body {
+  height: 100%
+}
+
 body {
     background-color: #292c35;
 }
@@ -12,17 +17,7 @@ body {
 
 /* center our login and register links */
 .loginOrRegister {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100px;
-    height: 100px;
-    position: absolute;
-    top:0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    margin: auto;
+    text-align: center;
 }
 
 a {
@@ -30,10 +25,10 @@ a {
     color: #ffffff;
 }
 
-/* make our links look nice */
+/*make our links look nice*/
 .loginOrRegister a {
     padding: 10px;
-    font-size: 2.5em;
+    font-size: 2.5em !important;
 }
 
 a:hover {
@@ -44,3 +39,14 @@ a:hover {
     color: #ffffff;
     font-size: 1.5em;
 }
+
+.container {
+    height: calc(100vh - 91.94px);
+    justify-content: center;
+}
+
+@media only screen and (max-width: 575px) {
+    .container {
+        height: calc(100vh - 174px);
+    }
+  }
