@@ -1,4 +1,3 @@
-
 * {
     margin: 0;
     padding: 0;
@@ -19,7 +18,7 @@ a:hover {
     color: grey;
 }
 
-.enter-prompt {
+.signup-prompt {
     font-size: larger;
 }
 
@@ -32,15 +31,11 @@ label {
     font-size: larger;
 }
 
-.forgotPass {
+.account {
     font-size: larger;
 }
 
-.noAccount {
-    font-size: larger;
-}
-
-.login-form {
+.register-form {
     height: calc(100vh - 91.94px);
     justify-content: center;
 }

@@ -9,7 +9,6 @@ function initialize(passport, getUserByEmail, getUserById){
 
         //try finding user with that email in our DB
         const user = await getUserByEmail(email)
-        console.log("in passport", user);
 
         //if user doesn't exist, return error message
         if (user.rowCount==0){
