@@ -46,7 +46,7 @@
                         <form action="/register" method="POST">
                             <div class="error">
                                 <% if (error) { %>
-                                    <p>Email already exists or password does not meet requirements.</p>
+                                    <p><%=error%></p>
                                 <% } %>
                             </div>
                             <h2 class="register fw-bold mb-2 text-uppercase">Register</h2>

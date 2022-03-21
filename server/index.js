@@ -11,7 +11,13 @@ const passport          = require('passport');
 const flash             = require('express-flash');
 const session           = require('express-session');
 const methodOverride    = require('method-override');
+const joi               = require('joi');
 
+
+//validate password complexity when user registers
+const schema = joi.object({
+    password: joi.string().min(6).alphanum().required(),
+});
 
 //passport handles auth & sessions 
 const initializePassport = require('./passport-config');
@@ -59,13 +65,15 @@ app.get('/search', checkAuthenticated, (req, res) => {
 //when user submits register form
 app.post('/register', checkNotAuthenticated, async (req, res) => {
 
-    //we need to check if password meets requirements as well
-
     try{
         //extract email & password. encrypt the password before storing in DB
         const email = req.body.email;
         const hashedPassword = await bcrypt.hash(req.body.password, 10);
 
+        //validate password meets complexity requirements
+        const value = await schema.validateAsync({
+            password: req.body.password,
+        });
 
         //insert the new user into our DB (the users table)
         const newUser = await pool.query(
@@ -73,17 +81,22 @@ app.post('/register', checkNotAuthenticated, async (req, res) => {
             [email, hashedPassword],
         );
 
+
         //redirect user to login page after successful registration
         res.redirect('/login');
         
     } catch (e) {
         //this error gets through by our DB when user tries signing up with email that is already registered
         if (e.code === '23505'){
-            res.render('register.ejs', {error: 'Email already exists.'})
+            res.render('register.ejs', {error: 'Email already exists.'});
         }
-        else{
-            res.redirect('/register');
+        else if(e.details[0].type === 'string.alphanum'){
+            res.render('register.ejs', {error: 'Password must only contain alpha-numeric characters'});
         }
+        else if(e.details[0].type === 'string.min'){
+            res.render('register.ejs', {error: 'Password must be at least 6 characters long'})
+        }
+
     }
 });
 
