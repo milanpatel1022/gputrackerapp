@@ -58,9 +58,9 @@ app.get('/register', checkNotAuthenticated, (req, res) => {
     res.render('register.ejs', {error: ''});
 });
 
-app.get('/search', checkAuthenticated, (req, res) => {
+app.get('/search', checkAuthenticated, async (req, res) => {
     res.render('search.ejs');
-})
+});
 
 //when user submits register form
 app.post('/register', checkNotAuthenticated, async (req, res) => {

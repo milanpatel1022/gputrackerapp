@@ -1,6 +1,6 @@
 .logout-button {
     position: absolute;
-    left: 51.2%;
+    left: 50%;
     transform: translateX(-50%);
 }
 
@@ -21,4 +21,44 @@ button {
 button:hover {
     color: #001F3F !important;
     background-color: #fff;
+}
+
+h4 {
+    color: white;
+}
+
+th {
+    color: white;
+}
+
+.gpuTable {
+    color: white !important;
+}
+
+/* body {
+    background-color: darkcyan;
+} */
+
+select {
+    color: white;
+}
+
+label {
+    color: white;
+}
+
+option {
+    color: black;
+}
+
+input {
+    color: white;
+}
+
+#gpuTable_info{
+    color: white;
+}
+
+.container{
+    padding-top: 3%;
 }
