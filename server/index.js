@@ -21,6 +21,7 @@ const schema = joi.object({
 
 //passport handles auth & sessions 
 const initializePassport = require('./passport-config');
+const { json } = require('express');
 initializePassport(
     passport,
     async email => await pool.query("SELECT * FROM users WHERE email = $1", [email]),
@@ -54,12 +55,15 @@ app.get('/login', checkNotAuthenticated, (req, res) => {
     res.render('login.ejs');
 });
 
+//when user submits login form
+app.post('/login', checkNotAuthenticated, passport.authenticate('local', {
+    successRedirect: '/',
+    failureRedirect: '/login',
+    failureFlash: true
+}));
+
 app.get('/register', checkNotAuthenticated, (req, res) => {
     res.render('register.ejs', {error: ''});
-});
-
-app.get('/search', checkAuthenticated, async (req, res) => {
-    res.render('search.ejs');
 });
 
 //when user submits register form
@@ -100,18 +104,27 @@ app.post('/register', checkNotAuthenticated, async (req, res) => {
     }
 });
 
-//when user submits login form
-app.post('/login', checkNotAuthenticated, passport.authenticate('local', {
-    successRedirect: '/',
-    failureRedirect: '/login',
-    failureFlash: true
-}));
+app.get('/search', checkAuthenticated, async (req, res) => {
+    res.render('search.ejs', {success: ''});
+});
+
+//submit button on search page
+app.post('/search', (req, res)=> {
+    console.log(req.body);
+    res.render('search.ejs', {success: 'Your selections are now being tracked'})
+})
+
 
 //Logout button on home page
 app.delete('/logout', (req, res) => {
     //this function is handled by passport. it will clear session and log user out
     req.logOut()
     res.redirect('/login')
+})
+
+
+app.get('/watchlist', checkAuthenticated, (req, res)=> {
+    //
 })
 
 //middleware to check if user is authenticated before allowing them on a certain page

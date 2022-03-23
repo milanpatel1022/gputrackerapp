@@ -29,3 +29,8 @@ VALUES
     ('https://www.newegg.com/evga-geforce-rtx-3050-08g-p5-3551-kr/p/N82E16814487556?Item=N82E16814487556', 'newegg', '3050', 'EVGA GeForce RTX 3050 XC'),
     ('https://www.newegg.com/asus-geforce-rtx-3050-ph-rtx3050-8g/p/N82E16814126558?Item=N82E16814126558', 'newegg', '3050', 'ASUS Phoenix GeForce RTX 3050'),
 RETURNING *;
+
+
+CREATE TABLE trackedProducts(
+    gid SERIAL references gpus(gid)
+);
