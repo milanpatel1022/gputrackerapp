@@ -1,6 +1,6 @@
 .logout-button {
     position: absolute;
-    left: 50%;
+    left: 49.75%;
     transform: translateX(-50%);
 }
 
@@ -25,6 +25,8 @@ button:hover {
 
 h4 {
     color: white;
+    padding-bottom: 10%;
+    font-size: xx-large;
 }
 
 th {
@@ -61,4 +63,18 @@ input {
 
 .container{
     padding-top: 3%;
+    max-width: 25%
+}
+
+#gpuTable td a {
+    color: black;
+    font-size: larger;
+}
+
+#gpuTable td a:hover{
+    color:blue;
+}
+
+#gpuTable th {
+    font-size: x-large;
 }

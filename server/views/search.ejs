@@ -50,14 +50,13 @@
     
     <div class="container">
         <h4 class="text-center">
-            Search for GPUs
+            Select GPUs to Track
         </h4>
         <table id="gpuTable" class="display">
             <thead>
                 <tr>
-                    <th>Select</th>
-                    <th>Product Name</th>
-                    <th>URL</th>
+                    <th></th>
+                    <th>Product</th>
                 </tr>
             </thead>
         </table>
@@ -73,13 +72,23 @@
                 'targets': 'no-sort',
                 'bSort': false,
                 'order': [],
+                "autoWidth": false,
 
-                'columnDefs': [{
-                    'className': 'select-checkbox',
-                    'targets': 0
-                }],
+                'columnDefs': [
+                    {
+                        targets: [0],
+                        'className': 'select-checkbox'
+                    },
+                    {
+                        targets: [1],
+                        data: {name: "name", url: "url"},
+                        mRender: function(data, type, full){
+                            return '<a href= "' + data.url + '">' + data.name + '</a>' 
+                        }
+                    }
+                ],
                 select: {
-                    style: 'single',
+                    style: 'multi',
                     selector: 'td:first-child'
                 },
                 'ajax': {
@@ -87,9 +96,7 @@
                     'dataSrc': ''
                 },
                 'columns': [
-                    {'defaultContent': ""},
-                    {'data': 'name'},
-                    {'data': 'url'}
+                    {'defaultContent': ""}
                 ]
             });
         });
