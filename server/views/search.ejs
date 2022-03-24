@@ -21,7 +21,7 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+    <nav class="navbar navbar-expand-sm">
         <div class="container-fluid">
             <div class="navbar-header">
                 <a class="navbar-brand" href="/">
@@ -56,19 +56,19 @@
             <thead>
                 <tr>
                     <th></th>
-                    <th>Product</th>
+                    <th>GPU Name</th>
                 </tr>
             </thead>
         </table>
     </div>
 
-    <div class="submit-button">
+    <div id="submitContainer" class="text-center">
         <form id="submit" class="submit" action="/search" method="POST">
             <button id="button_submit" class="btn" type="submit">Submit</button>
         </form>
     </div>
 
-    <div class="success">
+    <div id="success" class="text-center">
         <% if (success) { %>
             <p><%=success%></p>
         <% } %>

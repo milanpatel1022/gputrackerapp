@@ -120,7 +120,7 @@ app.post('/search', checkAuthenticated, async (req, res)=> {
 
     //if they made no selections, let them know
     if(selections[0] == ''){
-        res.render('search.ejs', {success: 'No selections were made'});
+        res.render('search.ejs', {success: 'No selections were made.'});
     }
 
     //else add their selections to the proper DB tables
@@ -160,7 +160,7 @@ app.post('/search', checkAuthenticated, async (req, res)=> {
             
         };
 
-        res.render('search.ejs', {success: 'Your selections are now being tracked'})
+        res.render('search.ejs', {success: 'Your selections are now being tracked.'})
     }
 });
 
