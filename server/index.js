@@ -109,10 +109,60 @@ app.get('/search', checkAuthenticated, async (req, res) => {
 });
 
 //submit button on search page
-app.post('/search', (req, res)=> {
-    console.log(req.body);
-    res.render('search.ejs', {success: 'Your selections are now being tracked'})
-})
+//we need to insert each of the user's selections into our trackedProducts table
+//we also need to insert the user and product as a new row into our usersToProducts table
+app.post('/search', checkAuthenticated, async (req, res)=> {
+    let user = await req.user;
+    const uid = user['rows'][0]['uid'];
+
+    //list of products the user wants to track
+    var selections = req.body.selections.split(',');
+
+    //if they made no selections, let them know
+    if(selections[0] == ''){
+        res.render('search.ejs', {success: 'No selections were made'});
+    }
+
+    //else add their selections to the proper DB tables
+    else{
+        for(let i = 0; i < selections.length; i++){
+            selections[i] = parseInt(selections[i]);
+
+            try{
+                //try adding the user and product into our userstogpus table
+                await pool.query(
+                    "INSERT INTO userstogpus(uid, gid) VALUES($1, $2)",
+                    [uid, selections[i]],
+                )
+
+                //try adding the gpu into our trackedgpus table
+                await pool.query(
+                    "INSERT INTO trackedgpus(gid, count) VALUES($1, $2)",
+                    [selections[i], 1],
+                );
+            } catch (e){
+                //error1 will occur when the user and product combination already exists in the userstogpus table
+                //we do not update our trackedgpus table in this case
+                if(e.table == 'userstogpus'){
+                    console.log("user and gpu combo already exists")
+                    continue;
+                }
+
+                //error2 will occur when product is already being tracked. simply increment its count when this happens
+                else if(e.table == 'trackedgpus'){
+                    console.log("product already being tracked");
+                    await pool.query(
+                        "UPDATE trackedgpus SET count = count + 1 WHERE gid = $1",
+                        [selections[i]],
+                    )
+                }
+            }
+            
+        };
+
+        res.render('search.ejs', {success: 'Your selections are now being tracked'})
+    }
+});
 
 
 //Logout button on home page
