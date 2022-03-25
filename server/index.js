@@ -12,6 +12,7 @@ const flash             = require('express-flash');
 const session           = require('express-session');
 const methodOverride    = require('method-override');
 const joi               = require('joi');
+var fs                  = require('fs');
 
 
 //validate password complexity when user registers
@@ -168,13 +169,53 @@ app.post('/search', checkAuthenticated, async (req, res)=> {
 //Logout button on home page
 app.delete('/logout', (req, res) => {
     //this function is handled by passport. it will clear session and log user out
-    req.logOut()
-    res.redirect('/login')
+    req.logOut();
+    res.redirect('/login');
 })
 
 
-app.get('/watchlist', checkAuthenticated, (req, res)=> {
-    //
+//user wants to see their tracklist
+app.get('/tracklist', checkAuthenticated, async (req, res) => {
+    res.render('tracklist.ejs', {success: ''});
+})
+
+app.get('/gettracklist', checkAuthenticated, async (req, res) => {
+    let user = await req.user;
+    const uid = user['rows'][0]['uid'];
+    var dataSet = [];
+
+    //get all the GPUs the current user is tracking from our DB
+    try{
+        const tracklist = await pool.query(
+            "SELECT gid, name, url FROM gpus WHERE gid IN (SELECT gid FROM userstogpus WHERE uid = $1)",
+            [uid]
+        );
+
+        //if user not tracking anything, let them know
+        if(tracklist['rows'].length == 0){
+            res.write(JSON.stringify(dataSet));
+            // res.render('tracklist.ejs', {success: 'You are not currently tracking any GPUs', dataSet: dataSet})
+            res.end();
+        }
+
+        //else send data over to EJS so the GPUs being tracked can be rendered in datatables
+        else{
+            for(let i = 0; i < tracklist['rows'].length; i++){
+                //remove trailing whitespaces from the GPU name and URL
+                tracklist['rows'][i]['name'] = tracklist['rows'][i]['name'].trim();
+                tracklist['rows'][i]['url'] = tracklist['rows'][i]['url'].trim();
+
+
+                dataSet.push(tracklist['rows'][i]);
+            }
+
+            res.write(JSON.stringify(dataSet));
+            res.end();
+        }
+
+    } catch(e) {
+        console.log(e);
+    }
 })
 
 //middleware to check if user is authenticated before allowing them on a certain page

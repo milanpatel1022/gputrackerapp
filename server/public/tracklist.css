@@ -88,3 +88,8 @@ input {
     padding-top: .5%;
     font-size: x-large;
 }
+
+.dataTables_empty {
+    color: red;
+    font-size: x-large;
+}

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Search</title>
+    <title>Tracklist</title>
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico"/>
@@ -16,8 +16,7 @@
     
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/select/1.3.1/css/select.dataTables.min.css">
-    <link rel="stylesheet" href="search.css"/>
-
+    <link rel="stylesheet" href="tracklist.css"/>
 </head>
 
 <body>
@@ -36,7 +35,7 @@
             </div>
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="/tracklist">Your Tracklist</a>
+                    <a class="nav-link" href="/search">Search</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/about">About</a>
@@ -47,10 +46,10 @@
             </ul>
         </div>
     </nav>
-    
+
     <div class="container">
         <h4 class="text-center">
-            Select GPUs to Track
+            GPUs Currently Tracked
         </h4>
         <table id="gpuTable" class="display">
             <thead>
@@ -63,8 +62,8 @@
     </div>
 
     <div id="submitContainer" class="text-center">
-        <form id="submit" class="submit" action="/search" method="POST">
-            <button id="button_submit" class="btn" type="submit">Track</button>
+        <form id="submit" class="submit" action="/tracklist" method="POST">
+            <button id="button_submit" class="btn" type="submit">Untrack</button>
         </form>
     </div>
 
@@ -74,12 +73,17 @@
         <% } %>
     </div>
 
+
     <script type="text/javascript" language="javascript" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
     <script type="text/javascript" language="javascript" src="https://cdn.datatables.net/select/1.3.4/js/dataTables.select.min.js"></script>
+
     <script>
         $(document).ready(function(){
             var table = $('#gpuTable').DataTable({
+                "language": {
+                    "emptyTable": "You are not currently tracking any GPUs"
+                },
                 'targets': 'no-sort',
                 'bSort': false,
                 'order': [],
@@ -102,59 +106,22 @@
                     style: 'multi',
                     selector: 'td:first-child'
                 },
-                'ajax': {
-                    'url': 'gpuData.json',
-                    'dataSrc': ''
+                ajax: {
+                    url: '/gettracklist',
+                    type: 'GET',
+                    "contentType": "application/json; charset=utf-8",
+                    dataFilter: function(data){
+                        var jData = JSON.parse(data);
+                        var dtData = JSON.stringify({"data": jData});
+                        return dtData;
+                    }
                 },
-                'columns': [
+                columns: [
                     {'defaultContent': ""}
                 ]
             });
-            
-            //when user presses submit, a POST request is sent.
-            //we need to send data to our server when this happens. what data? the selected rows
-            $("#submit").on('submit', function(e){
-                var form = this;
-
-                var selectedRows = [];
-                for (var i = 0; i < table.rows('.selected').data().length; i++) { 
-                    selectedRows.push(table.rows('.selected').data()[i].gid);
-                };
-
-                //add hidden data to our form to send to our server
-                //the data is the selected rows
-                $(form).append(
-                    $('<input>', {
-                        type: 'hidden',
-                        id: 'selections',
-                        name: 'selections',
-                        value: selectedRows
-                    })
-                );
-                return true;
-
-            });
-
         });
     </script>
-    <style>
-        .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
-          background: none;
-          color: white!important;
-          /*change the hover text color*/
-        }
-        
-        /*below block of css for change style when active*/
-        
-        .dataTables_wrapper .dataTables_paginate .paginate_button:active {
-          background: none;
-          color: white!important;
-        }
-        .dataTables_wrapper .dataTables_paginate .paginate_button {
-          background: none;
-          color: white!important;
-        }
-        </style>
-    
+
 </body>
 </html>
