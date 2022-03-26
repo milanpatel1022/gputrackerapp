@@ -116,7 +116,7 @@ app.post('/search', checkAuthenticated, async (req, res)=> {
     let user = await req.user;
     const uid = user['rows'][0]['uid'];
 
-    //list of products the user wants to track
+    //GIDs of the GPUs the user wants to track
     var selections = req.body.selections.split(',');
 
     //if they made no selections, let them know
@@ -177,7 +177,66 @@ app.delete('/logout', (req, res) => {
 //user wants to see their tracklist
 app.get('/tracklist', checkAuthenticated, async (req, res) => {
     res.render('tracklist.ejs', {success: ''});
-})
+});
+
+//user wants to remove items from their tracklist
+app.post('/tracklist', checkAuthenticated, async(req, res) => {
+    let user = await req.user;
+    const uid = user['rows'][0]['uid'];
+
+    //GIDs of the GPUs the user wants to untrack
+    var selections = req.body.selections.split(',');
+
+    console.log(selections);
+
+    //if they made no selections, let them know
+    if(selections[0] == ''){
+        res.render('search.ejs', {success: 'No selections were made.'});
+    }
+
+    //else add their selections to the proper DB tables
+    else{
+        for(let i = 0; i < selections.length; i++){
+            selections[i] = parseInt(selections[i]);
+
+            try{
+                //update userstogpus table
+                await pool.query(
+                    "DELETE FROM userstogpus WHERE uid = $1 AND gid = $2",
+                    [uid, selections[i]]
+                )
+
+                //update trackedgpus table. 1st get how many people are tracking the GPU
+                const res = await pool.query(
+                    "SELECT count FROM trackedgpus WHERE gid = $1",
+                    [selections[i]]
+                )
+                
+                //if only this user was tracking the GPU, we remove the whole row
+                if(res['rows'][0]['count'] == 1){
+                    console.log("row deleted from tracked")
+                    await pool.query(
+                        "DELETE FROM trackedgpus WHERE gid = $1",
+                        [selections[i]]
+                    )
+                }
+
+                //else, we just decrement count to correctly reflect how many people are now tracking the GPU
+                else{
+                    console.log("row updated in tracked")
+                    await pool.query(
+                        "UPDATE trackedgpus SET count = count - 1 WHERE gid = $1",
+                        [selections[i]]
+                    )
+                }
+
+            } catch(e){
+                console.log(e);
+            }
+        }
+        res.render('tracklist.ejs', {success: 'Your selections are no longer being tracked'});
+    }
+});
 
 app.get('/gettracklist', checkAuthenticated, async (req, res) => {
     let user = await req.user;

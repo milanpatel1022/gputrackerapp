@@ -120,6 +120,30 @@
                     {'defaultContent': ""}
                 ]
             });
+
+            //when user presses submit, a POST request is sent.
+            //we need to send data to our server when this happens. what data? the selected rows
+            $("#submit").on('submit', function(e){
+                var form = this;
+
+                var selectedRows = [];
+                for (var i = 0; i < table.rows('.selected').data().length; i++) { 
+                    selectedRows.push(table.rows('.selected').data()[i].gid);
+                };
+
+                //add hidden data to our form to send to our server
+                //the data is the selected rows
+                $(form).append(
+                    $('<input>', {
+                        type: 'hidden',
+                        id: 'selections',
+                        name: 'selections',
+                        value: selectedRows
+                    })
+                );
+                return true;
+
+            });
         });
     </script>
 
