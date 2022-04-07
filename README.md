@@ -11,7 +11,7 @@
   - PostgreSQL
   - JQuery
   - Bootstrap
-  - EJS
+  - HTML
   - CSS
 
 # Data Tables
