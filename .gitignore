@@ -1,3 +1,4 @@
 server/node_modules/
 server/db.js
 .env
+scraper/config/database.ini

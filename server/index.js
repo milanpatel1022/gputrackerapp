@@ -191,7 +191,7 @@ app.post('/tracklist', checkAuthenticated, async(req, res) => {
 
     //if they made no selections, let them know
     if(selections[0] == ''){
-        res.render('search.ejs', {success: 'No selections were made.'});
+        res.render('tracklist.ejs', {success: 'No selections were made.'});
     }
 
     //else add their selections to the proper DB tables
