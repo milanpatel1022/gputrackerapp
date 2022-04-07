@@ -11,7 +11,7 @@
   - PostgreSQL
   - JQuery
   - Bootstrap
-  - HTML
+  - HTML (EJS)
   - CSS
 
 # Images
