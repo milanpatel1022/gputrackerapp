@@ -4,6 +4,8 @@
 
 # Built with
   - JavaScript
+  - Python
+  - Selenium
   - Node
   - Express
   - PostgreSQL
