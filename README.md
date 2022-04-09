@@ -44,4 +44,4 @@
   - Used hidden forms to send data to my backend regarding what rows a user selected from the tables shown on the Search and Tracklist pages.
   - Used Passport.js to implement an authentication service.
   - Passwords are hashed and stored safely using bcrypt.
-  - Used Gmail API to send emails to users when GPUs they are tracking come in stock.
+  - Utilized the Gmail API to send emails to users when GPUs they are tracking come in stock.
