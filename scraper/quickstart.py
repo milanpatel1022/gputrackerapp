@@ -57,9 +57,7 @@ def create_message(sender, to, subject, message_text):
 
 
 def helper(sender, to, subject, message_text):
-    """Shows basic usage of the Gmail API.
-    Lists the user's Gmail labels.
-    """
+
     creds = None
     # The file token.json stores the user's access and refresh tokens, and is
     # created automatically when the authorization flow completes for the first
@@ -90,7 +88,3 @@ def helper(sender, to, subject, message_text):
     except HttpError as error:
         # TODO(developer) - Handle errors from gmail API.
         print(f'An error occurred: {error}')
-
-
-# if __name__ == '__main__':
-#     main()

@@ -3,3 +3,4 @@ server/db.js
 .env
 scraper/config/database.ini
 scraper/credentials.json
+scraper/token.json
