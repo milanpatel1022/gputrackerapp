@@ -1,4 +1,5 @@
 # Import libraries
+import time
 import psycopg2
 from config.config import config
 
@@ -101,9 +102,13 @@ for row in cur:
 
     #use bestbuy scraper if URL is for bestbuy
     if(site == "bestbuy"):
-        content = driver.find_element(By.CLASS_NAME, 'fulfillment-fulfillment-summary').text
+
+        content = driver.find_element(By.CLASS_NAME, 'fulfillment-fulfillment-summary')
         
-        if content == "Sold Out":
+        sold = content.find_element(By.TAG_NAME, 'strong').text
+    
+
+        if sold == "Sold Out":
             print("out of stock")
         else:
             print("in stock")
