@@ -277,6 +277,11 @@ app.get('/gettracklist', checkAuthenticated, async (req, res) => {
     }
 })
 
+app.get('/about', async (req, res) => {
+    res.render('about.ejs')
+});
+
+
 //middleware to check if user is authenticated before allowing them on a certain page
 //pass this into the GET requests on pages you want to protect
 function checkAuthenticated(req, res, next){

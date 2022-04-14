@@ -42,7 +42,7 @@ def find_users(gid, url, name):
     cur.execute("SELECT uid FROM userstogpus WHERE gid = (%s)", [gid])
 
     subject = "IN STOCK: %s" % name
-    message = "Link: %s.\n Note: We are no longer tracking this item for you." % url
+    message = "Link: %s.\nNote: We are no longer tracking this item for you." % url
 
     #get their email
     for row in cur:
