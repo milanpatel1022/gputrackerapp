@@ -281,6 +281,9 @@ app.get('/about', async (req, res) => {
     res.render('about.ejs')
 });
 
+app.get('/contact', async (req, res) => {
+    res.render('contact.ejs')
+});
 
 //middleware to check if user is authenticated before allowing them on a certain page
 //pass this into the GET requests on pages you want to protect
