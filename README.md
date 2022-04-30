@@ -45,3 +45,8 @@
   - Used Passport.js to implement an authentication service.
   - Passwords are hashed and stored safely using bcrypt.
   - Utilized the Gmail API to send emails to users when GPUs they are tracking come in stock.
+
+# To-Do
+  - Implement "Forgot Password" functionality
+  - Implement multithreaded web scraping to drastically improve performance.
+  - Deploy the app
