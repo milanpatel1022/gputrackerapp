@@ -49,4 +49,6 @@
 # To-Do
   - Implement "Forgot Password" functionality
   - Implement multithreaded web scraping to drastically improve performance.
+  - Denormalize data to improve read performance while sacrificing write performance?
+      -> by adding redundant data to tables to reduce joins
   - Deploy the app
