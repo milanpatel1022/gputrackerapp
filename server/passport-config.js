@@ -27,8 +27,13 @@ function initialize(passport, getUserByEmail, getUserById){
         }
     }
 
+    //we use passport's Local strategy, which calls authenticateUser above. This code is called when user attempts to login.
     passport.use(new LocalStrategy({ usernameField: 'email' }, authenticateUser));
+
+    //Passport uses serialize to persist user data after successful authentication into session
     passport.serializeUser((user, done) => done(null, user.rows[0].uid));
+
+    //Passport uses deserialize to retrieve user data 
     passport.deserializeUser((id, done) => {
         done(null, getUserById(id))
     });

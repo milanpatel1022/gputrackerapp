@@ -20,9 +20,8 @@ const schema = joi.object({
     password: joi.string().min(6).alphanum().required(),
 });
 
-//passport handles auth & sessions 
+//passport handles auth 
 const initializePassport = require('./passport-config');
-const { json } = require('express');
 initializePassport(
     passport,
     async email => await pool.query("SELECT * FROM users WHERE email = $1", [email]),
@@ -36,11 +35,15 @@ app.use(express.urlencoded({extended: false}));
 app.use(cors());
 app.use(express.json());
 app.use(flash());
+
+//express session stores sessions in memory by default.
+//there is an option to store in a DB to make it more scalable. I have not implemented that at the moment.
 app.use(session({
     secret: process.env.SESSION_SECRET,
     resave: false, //this says: should we resave session variable if nothing has changed
     saveUnitialized: false, //this says: do you want to save an empty value in the session
 }));
+
 app.use(passport.initialize()); //function inside of passport
 app.use(passport.session()); //we want variables to be persisted across entire session for user
 app.use(methodOverride('_method'));
@@ -170,6 +173,7 @@ app.post('/search', checkAuthenticated, async (req, res)=> {
 app.delete('/logout', (req, res) => {
     //this function is handled by passport. it will clear session and log user out
     req.logOut();
+    req.session.destroy();
     res.redirect('/login');
 })
 
@@ -288,6 +292,8 @@ app.get('/contact', async (req, res) => {
 //middleware to check if user is authenticated before allowing them on a certain page
 //pass this into the GET requests on pages you want to protect
 function checkAuthenticated(req, res, next){
+    //isAuthenticated is a Passport function
+    //I believe it calls deserialize to check if the user is authenticated
     if(req.isAuthenticated()){
         return next();
     }
