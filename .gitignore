@@ -1,6 +1,6 @@
-server/node_modules/
-server/db.js
+db.js
 .env
 scraper/config/database.ini
 scraper/credentials.json
 scraper/token.json
+node_modules/

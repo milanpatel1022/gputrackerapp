@@ -13,6 +13,16 @@ const session           = require('express-session');
 const methodOverride    = require('method-override');
 const joi               = require('joi');
 var fs                  = require('fs');
+const path              = require('path');
+
+
+//heroku will be in charge of our app's environment
+//it will provide us with env variables to apply to our app
+const PORT = process.env.PORT || 3000 //heroku can use whatever port it wants
+
+
+//our static files can be found in /public
+app.use(express.static(path.join(__dirname, "public")))
 
 
 //validate password complexity when user registers
@@ -47,7 +57,6 @@ app.use(session({
 app.use(passport.initialize()); //function inside of passport
 app.use(passport.session()); //we want variables to be persisted across entire session for user
 app.use(methodOverride('_method'));
-app.use(express.static(__dirname + '/public'));
 
 
 //home page where you can login or register
@@ -97,6 +106,9 @@ app.post('/register', checkNotAuthenticated, async (req, res) => {
         //this error gets through by our DB when user tries signing up with email that is already registered
         if (e.code === '23505'){
             res.render('register.ejs', {error: 'Email already exists.'});
+        }
+        else if (e.code === '23514'){
+            res.render('register.ejs', {error: 'Use a valid email address'});
         }
         else if(e.details[0].type === 'string.alphanum'){
             res.render('register.ejs', {error: 'Password must only contain alpha-numeric characters'});
@@ -312,6 +324,6 @@ function checkNotAuthenticated(req, res, next){
     next();
 }
 
-app.listen(3000, function(){
-    console.log('listening on 3000');
+app.listen(PORT, function(){
+    console.log('listening on PORT %s', PORT);
 });
