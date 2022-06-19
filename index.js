@@ -2,6 +2,11 @@ if(process.env.NODE_ENV !== 'production'){
     require('dotenv').config();
 }
 
+const {spawn}           = require('child_process');
+
+//as soon as our app starts, begin running our scraper
+const python = spawn('py', ['./scraper/scraper.py']);
+
 const express           = require('express');
 const app               = express();
 const cors              = require("cors");
@@ -299,6 +304,15 @@ app.get('/about', async (req, res) => {
 
 app.get('/contact', async (req, res) => {
     res.render('contact.ejs')
+});
+
+
+app.get('*', checkNotAuthenticated, (req, res) => {
+    res.render('index.ejs', {title: "Home"});
+});
+
+app.get('*', checkAuthenticated, (req, res) => {
+    res.render('search.ejs', {title: "Home"});
 });
 
 //middleware to check if user is authenticated before allowing them on a certain page

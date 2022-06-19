@@ -84,45 +84,47 @@ def find_users(gid, url, name):
 #create a new cursor
 cur = conn.cursor()
 
-# Read the table
-cur.execute("""
-SELECT gid, url, type, name FROM gpus WHERE gid IN (SELECT gid FROM trackedgpus);
-""")
 
-#for every gpu being tracked
-for row in cur:
-    #extract information from each row in table
-    gid = row[0]
-    url = str(row[1].rstrip())
-    site = str(row[2].rstrip())
-    name = str(row[3].rstrip())
+while True:
+    # Read the table
+    cur.execute("""
+    SELECT gid, url, type, name FROM gpus WHERE gid IN (SELECT gid FROM trackedgpus);
+    """)
 
-    #go to product page
-    driver.get(url)
+    #for every gpu being tracked
+    for row in cur:
+        #extract information from each row in table
+        gid = row[0]
+        url = str(row[1].rstrip())
+        site = str(row[2].rstrip())
+        name = str(row[3].rstrip())
 
-    #use bestbuy scraper if URL is for bestbuy
-    if(site == "bestbuy"):
+        #go to product page
+        driver.get(url)
 
-        content = driver.find_element(By.CLASS_NAME, 'fulfillment-fulfillment-summary')
+        #use bestbuy scraper if URL is for bestbuy
+        if(site == "bestbuy"):
+
+            content = driver.find_element(By.CLASS_NAME, 'fulfillment-fulfillment-summary')
+            
+            sold = content.find_element(By.TAG_NAME, 'strong').text
         
-        sold = content.find_element(By.TAG_NAME, 'strong').text
-    
 
-        if sold == "Sold Out":
-            print("out of stock")
+            if sold == "Sold Out":
+                print("out of stock")
+            else:
+                print("in stock")
+                find_users(gid, url, name)
+        
+        #use newegg scraper if URL is for newegg
         else:
-            print("in stock")
-            find_users(gid, url, name)
-    
-    #use newegg scraper if URL is for newegg
-    else:
-        content = driver.find_element(By.CLASS_NAME, 'font-s_15').text
+            content = driver.find_element(By.CLASS_NAME, 'font-s_15').text
 
-        if content == "OUT OF STOCK.":
-            print("out of stock")
-        else:
-            print("in stock")
-            find_users(gid, url, name)
+            if content == "OUT OF STOCK.":
+                print("out of stock")
+            else:
+                print("in stock")
+                find_users(gid, url, name)
             
 
 # Close the connection

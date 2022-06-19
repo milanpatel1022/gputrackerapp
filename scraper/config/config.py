@@ -5,7 +5,7 @@ def get_project_root() -> Path:
     """returns project root folder"""
     return Path(__file__).parents[1]
 
-def config(filename= "config\database.ini", section='postgresql'):
+def config(filename= ".\scraper\config\database.ini", section='postgresql'):
     # create a parser
     parser = configparser.ConfigParser()
 
