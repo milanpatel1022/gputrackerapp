@@ -29,14 +29,14 @@ driver = webdriver.Chrome(ChromeDriverManager().install(), options=options)
 
 # Establish a connection to the database by creating a cursor object
 
-# DATABASE_URL = os.environ['DATABASE_URL']
+DATABASE_URL = os.environ['DATABASE_URL']
 
-# conn = psycopg2.connect(DATABASE_URL, sslmode='require')
+conn = psycopg2.connect(DATABASE_URL, sslmode='require')
 
-# Connect to PostgreSQL
-params = config()
-conn = psycopg2.connect(**params)
-print('Python connected to PostgreSQL!')
+# # Connect to PostgreSQL
+# params = config()
+# conn = psycopg2.connect(**params)
+# print('Python connected to PostgreSQL!')
 
 
 #this function is called when a tracked GPU comes in stock so we can notify all the users tracking it
