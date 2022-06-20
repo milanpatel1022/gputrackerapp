@@ -54,7 +54,7 @@ app.use(flash());
 //express session stores sessions in memory by default.
 //there is an option to store in a DB to make it more scalable. I have not implemented that at the moment.
 app.use(session({
-    secret: process.env.SESSION_SECRET,
+    secret: 'secretidhere',
     resave: false, //this says: should we resave session variable if nothing has changed
     saveUnitialized: false, //this says: do you want to save an empty value in the session
 }));
