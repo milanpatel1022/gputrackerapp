@@ -2,10 +2,10 @@ if(process.env.NODE_ENV !== 'production'){
     require('dotenv').config();
 }
 
-const {spawn}           = require('child_process');
+// const {spawn}           = require('child_process');
 
-//as soon as our app starts, begin running our scraper
-const python = spawn('py', ['./scraper/scraper.py']);
+// //as soon as our app starts, begin running our scraper
+// const python = spawn('py', ['./scraper/scraper.py']);
 
 const express           = require('express');
 const app               = express();
