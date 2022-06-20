@@ -33,6 +33,8 @@ DATABASE_URL = os.environ['DATABASE_URL']
 
 conn = psycopg2.connect(DATABASE_URL, sslmode='require')
 
+print('somestring', flush=True)
+
 # # Connect to PostgreSQL
 # params = config()
 # conn = psycopg2.connect(**params)
