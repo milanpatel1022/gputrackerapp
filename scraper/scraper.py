@@ -57,6 +57,7 @@ def find_users(gid, url, name):
         #update userstogpus table
         cur3 = conn.cursor()
         cur3.execute("DELETE FROM userstogpus WHERE uid = (%s) AND gid = (%s)", [uid, gid])
+        
 
         #update trackedgpus table. 1st get how many people are tracking the GPU
         cur4 = conn.cursor()
@@ -76,16 +77,15 @@ def find_users(gid, url, name):
             else:
                 print("row updated in tracked")
                 cur5.execute("UPDATE trackedgpus SET count = count - 1 WHERE gid = (%s)", [gid])
-            
-
     
+    conn.commit()
     return
-
-#create a new cursor
-cur = conn.cursor()
 
 
 while True:
+    #create a new cursor
+    cur = conn.cursor()
+
     # Read the table
     cur.execute("""
     SELECT gid, url, type, name FROM gpus WHERE gid IN (SELECT gid FROM trackedgpus);
@@ -99,6 +99,7 @@ while True:
         site = str(row[2].rstrip())
         name = str(row[3].rstrip())
 
+        print(name)
         #go to product page
         driver.get(url)
 
@@ -125,8 +126,7 @@ while True:
             else:
                 print("in stock")
                 find_users(gid, url, name)
-            
+    
 
 # Close the connection
-conn.commit()
 conn.close()
