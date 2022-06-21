@@ -104,6 +104,9 @@ while True:
     SELECT gid, url, type, name FROM gpus WHERE gid IN (SELECT gid FROM trackedgpus);
     """)
 
+    print("reading db")
+    sys.stdout.flush()
+
     #for every gpu being tracked
     for row in cur:
         #extract information from each row in table

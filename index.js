@@ -6,6 +6,7 @@ if(process.env.NODE_ENV !== 'production'){
 
     //as soon as our app starts, begin running our scraper
     const python = spawn('py', ['./scraper/scraper.py']);
+    python.stdout.pipe(process.stdout);
 }
 
 //if in production
@@ -14,6 +15,7 @@ else{
     const python = spawn('python', ['-u', './scraper/scraper.py']);
 
     python.stderr.pipe(process.stderr);
+    python.stdout.pipe(process.stdout);
 }
 
 const express           = require('express');
