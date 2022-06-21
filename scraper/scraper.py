@@ -2,6 +2,7 @@
 import time
 import psycopg2
 import os
+import sys
 
 from config.config import config
 
@@ -28,12 +29,16 @@ driver = webdriver.Chrome(ChromeDriverManager().install(), options=options)
 
 
 # Establish a connection to the database by creating a cursor object
+print('IN SCRAPER')
+sys.stdout.flush()
 
 DATABASE_URL = os.environ['DATABASE_URL']
 
 conn = psycopg2.connect(DATABASE_URL, sslmode='require')
 
-print('somestring', flush=True)
+print('somestring')
+sys.stdout.flush()
+
 
 # # Connect to PostgreSQL
 # params = config()
