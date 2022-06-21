@@ -3,6 +3,7 @@ import time
 import psycopg2
 import os
 import sys
+from time import sleep
 
 from config.config import config
 
@@ -120,6 +121,7 @@ while True:
         #go to product page
         driver.get(url)
 
+        sleep(3)
 
         #use bestbuy scraper if URL is for bestbuy
         if(site == "bestbuy"):            
