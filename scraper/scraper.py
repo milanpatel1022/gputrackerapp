@@ -123,6 +123,7 @@ while True:
 
         #use bestbuy scraper if URL is for bestbuy
         if(site == "bestbuy"):
+            continue
             
 
             content = driver.find_element(By.CLASS_NAME, 'fulfillment-fulfillment-summary')
