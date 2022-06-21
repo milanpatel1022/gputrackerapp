@@ -17,7 +17,7 @@ from quickstart import helper
 
 #options for our scraper to bypass warnings, to render elements correctly, etc.
 options = Options()
-options.add_argument('--headless')
+# options.add_argument('--headless')
 options.add_argument('--disable-gpu')
 options.add_argument('--window-size=1920,1200')
 options.add_argument('--no-sandbox')
@@ -116,16 +116,13 @@ while True:
         name = str(row[3].rstrip())
 
         print(name)
+
         #go to product page
         driver.get(url)
 
-        print(driver.find_element_by_xpath("/html/body").text)
 
         #use bestbuy scraper if URL is for bestbuy
-        if(site == "bestbuy"):
-            continue
-            
-
+        if(site == "bestbuy"):            
             content = driver.find_element(By.CLASS_NAME, 'fulfillment-fulfillment-summary')
             
             sold = content.find_element(By.TAG_NAME, 'strong').text
