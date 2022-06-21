@@ -12,6 +12,7 @@ if(process.env.NODE_ENV !== 'production'){
 else{
     console.log("in production")
     const python = spawn('python', ['-u', './scraper/scraper.py']);
+    console.log(python, "???");
     python.stdout.on('data', (data) => {
         console.log(data.toString());
     });
