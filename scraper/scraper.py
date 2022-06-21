@@ -119,8 +119,11 @@ while True:
         #go to product page
         driver.get(url)
 
+        print(driver.find_element_by_xpath("/html/body").text)
+
         #use bestbuy scraper if URL is for bestbuy
         if(site == "bestbuy"):
+            
 
             content = driver.find_element(By.CLASS_NAME, 'fulfillment-fulfillment-summary')
             
