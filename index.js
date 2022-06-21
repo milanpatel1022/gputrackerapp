@@ -11,7 +11,7 @@ if(process.env.NODE_ENV !== 'production'){
 //if in production
 else{
     console.log("in production")
-    const python = spawn('python', ['./scraper/scraper.py']);
+    const python = spawn('python', ['-u', './scraper/scraper.py']);
 }
 
 const express           = require('express');
