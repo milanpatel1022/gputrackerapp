@@ -4,6 +4,8 @@ import psycopg2
 import os
 import sys
 from time import sleep
+from urllib.request import Request, urlopen
+
 
 from config.config import config
 
@@ -12,13 +14,14 @@ from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 
+
 #import my email service from quickstart
 from quickstart import helper
 
 
 #options for our scraper to bypass warnings, to render elements correctly, etc.
 options = Options()
-# options.add_argument('--headless')
+options.add_argument('--headless')
 options.add_argument('--disable-gpu')
 options.add_argument('--window-size=1920,1200')
 options.add_argument('--no-sandbox')
@@ -28,6 +31,7 @@ options.add_argument('--user-agent="Mozilla/5.0 (Windows Phone 10.0; Android 4.2
 
 driver = webdriver.Chrome(ChromeDriverManager().install(), options=options)
 
+driver.get("https://www.nba.com/")
 
 # Establish a connection to the database by creating a cursor object
 print('IN SCRAPER')
@@ -121,7 +125,6 @@ while True:
         #go to product page
         driver.get(url)
 
-        sleep(3)
 
         #use bestbuy scraper if URL is for bestbuy
         if(site == "bestbuy"):            
