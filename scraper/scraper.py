@@ -21,7 +21,7 @@ from quickstart import helper
 
 #options for our scraper to bypass warnings, to render elements correctly, etc.
 options = Options()
-options.add_argument('--headless')
+# options.add_argument('--headless')
 options.add_argument('--disable-gpu')
 options.add_argument('--window-size=1920,1200')
 options.add_argument('--no-sandbox')
@@ -30,8 +30,6 @@ options.add_argument('--log-level=3')
 options.add_argument('--user-agent="Mozilla/5.0 (Windows Phone 10.0; Android 4.2.1; Microsoft; Lumia 640 XL LTE) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.135 Mobile Safari/537.36 Edge/12.10166"')
 
 driver = webdriver.Chrome(ChromeDriverManager().install(), options=options)
-
-driver.get("https://www.nba.com/")
 
 # Establish a connection to the database by creating a cursor object
 print('IN SCRAPER')
