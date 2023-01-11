@@ -48,5 +48,3 @@
 
 # To-Do
   - Implement "Forgot Password" functionality
-  - Possibly implement multithreaded web scraping to drastically improve performance.
-  - Deploy the app
